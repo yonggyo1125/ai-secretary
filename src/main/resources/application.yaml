@@ -30,13 +30,18 @@ spring:
     openai:
       api-key: ${OPENAI_API_KEY}
       options:
-        model: gpt-5-mini
+        model: gpt-4o-mini
 
+    vectorstore:
+      pgvector:
+        initialize-schema: true
 
 logging:
   level:
     org.springframework.ai.tool: DEBUG
+    org.springframework.ai.tool.method: DEBUG
     org.springframework.ai.tool.execution: DEBUG
+    org.springframework.ai.model.function: DEBUG
 
     org.springframework.ai.openai.api: DEBUG
     org.springframework.ai.chat.model: DEBUG
