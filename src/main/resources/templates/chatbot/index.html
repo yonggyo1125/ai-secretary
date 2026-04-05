@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pink Secretary - AI 비서</title>
+    <link rel="stylesheet" href="/chatbot/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<div class="chat-container">
+    <header>
+        <span class="material-icons">auto_awesome</span>
+        <h1>Pink Secretary</h1>
+    </header>
+
+    <main id="chat-window">
+        <div class="message bot">
+            안녕하세요! 무엇을 도와드릴까요? <br>
+            일정 관리, 경로 검색, 슬랙 전송 등 무엇이든 말씀하세요.
+        </div>
+        <div id="loading-indicator" class="message bot hidden">
+            <span class="material-icons rotating">sync</span>
+            <span>비서가 생각 중입니다...</span>
+        </div>
+    </main>
+
+    <form id="chat-form">
+        <input type="text" id="user-input" placeholder="메시지를 입력하세요..." autocomplete="off">
+        <button type="submit">
+            <span class="material-icons">send</span>
+        </button>
+    </form>
+</div>
+
+<script src="/chatbot/chat.js"></script>
+</body>
+</html>

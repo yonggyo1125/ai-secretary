@@ -56,7 +56,7 @@ public class SlackTools {
                             {data}
                             """)
                             .param("format", formatDirection)
-                            .param("data", params.toString()))
+                            .param("data", params == null ? "" : params.toString()))
                     .call()
                     .content();
         } catch (Exception e) {

@@ -29,12 +29,21 @@ spring:
   ai:
     openai:
       api-key: ${OPENAI_API_KEY}
+      options:
+        model: gpt-5-mini
 
 
 logging:
   level:
     org.springframework.ai.tool: DEBUG
+    org.springframework.ai.tool.execution: DEBUG
+
+    org.springframework.ai.openai.api: DEBUG
+    org.springframework.ai.chat.model: DEBUG
+
     org.springframework.ai.chat.client.advisor: DEBUG
+    org.springframework.ai.chat.client: DEBUG
+    org.sparta.secretary.global.tool: DEBUG
 
 
 # 파일 업로드 설정

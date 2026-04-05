@@ -1,0 +1,128 @@
+:root {
+    --primary-pink: #ff85a2;
+    --light-pink: #ffccd5;
+    --soft-bg: #fff5f7;
+    --bot-msg: #ffffff;
+    --user-msg: #ff85a2;
+}
+
+body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background-color: var(--soft-bg);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 500px;
+    height: 80vh;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(255, 133, 162, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+header {
+    background: var(--primary-pink);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+header h1 { font-size: 1.2rem; margin: 0; }
+
+#chat-window {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    scroll-behavior: smooth; /* 부드러운 스크롤 */
+}
+
+/* 스크롤바 디자인 */
+#chat-window::-webkit-scrollbar { width: 6px; }
+#chat-window::-webkit-scrollbar-thumb {
+    background: var(--light-pink);
+    border-radius: 10px;
+}
+
+.message {
+    max-width: 80%;
+    padding: 12px 18px;
+    border-radius: 18px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    word-break: break-all;
+}
+
+.bot {
+    align-self: flex-start;
+    background: #f0f0f0;
+    color: #333;
+    border-bottom-left-radius: 2px;
+}
+
+.user {
+    align-self: flex-end;
+    background: var(--user-msg);
+    color: white;
+    border-bottom-right-radius: 2px;
+}
+
+#chat-form {
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #eee;
+}
+
+#user-input {
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 25px;
+    outline: none;
+    transition: border 0.3s;
+}
+
+#user-input:focus { border-color: var(--primary-pink); }
+
+button {
+    background: var(--primary-pink);
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+button:hover { transform: scale(1.1); }
+
+.hidden { display: none !important; }
+
+.rotating {
+    animation: rotate 2s linear infinite;
+    font-size: 1.2rem;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
