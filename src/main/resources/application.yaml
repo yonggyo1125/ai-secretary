@@ -1,3 +1,44 @@
 spring:
   application:
     name: ai-secretary
+
+  # DB 설정
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_URL:localhost:5432/postgres}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+  # 파일 업로드
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 15MB
+
+  # 정적 리소스 캐시 사용 안함 설정
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          no-cache: true
+          no-store: true
+          must-revalidate: true
+
+  # OPEN AI 설정
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+
+
+logging:
+  level:
+    org.springframework.ai.tool: DEBUG
+    org.springframework.ai.chat.client.advisor: DEBUG
+
+
+# 파일 업로드 설정
+file:
+  upload:
+    url: ${FILE_URL:/upload}
+    path: ${FILE_PATH}
