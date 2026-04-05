@@ -32,25 +32,37 @@ public class SlackTools {
     }
 
     @Tool(description = "제공된 파라미터(JSON 데이터 등)를 기반으로, 지정된 형식 지침에 따라 슬랙 전송용 메시지 본문을 생성합니다. " +
-            "단순 치환이 아닌 자연스러운 문장으로 구성하며, 마크다운(Markdown) 형식을 지원합니다.")
+            "단순 치환이 아닌 자연스러운 문장으로 구성하며, 슬랙 마크다운(Markdown) 형식을 지원합니다.")
     public String toConvertMessage(
             @ToolParam(description = "메시지의 톤앤매너나 필수 포함 정보를 정의하는 지침 (예: '일정 요약 형식으로 정중하게 작성해줘')") String formatDirection,
             @ToolParam(description = "메시지에 녹여낼 실제 데이터들 (경로 정보, 시간, 장소명 등)") Map<String, Object> params) {
 
-        String message = this.chatClient.prompt()
-                .system("당신은 슬랙 메시지 작성 전문가입니다. 사용자 데이터를 바탕으로 슬랙의 마크다운 형식을 활용해 읽기 편하고 깔끔한 메시지를 작성합니다.")
-                .user(u -> u.text("""
-                [형식지침]
-                {format}
-                
-                [데이터]
-                {data}
-                """)
-                        .param("format", formatDirection)
-                        .param("data", params.toString()))
-                .call()
-                .content();
-       return message;
+        try {
+            log.info("LLM 메시지 변환 시작 - 지침: {}", formatDirection);
+
+            return this.chatClient.prompt()
+                    .system("""
+                            당신은 슬랙(Slack) 메시지 작성 전문가입니다. 
+                            제공된 데이터를 바탕으로 사용자의 지침에 따라 가독성 좋은 메시지를 작성하세요.
+                            - 슬랙의 마크다운(bold: *text*, list: - 등)을 적절히 사용하세요.
+                            - 불필요한 서술은 생략하고 핵심 정보를 명확히 전달하세요.
+                            - 특수문자(&, <, >) 처리에 유의하세요.
+                            """)
+                    .user(u -> u.text("""
+                            [형식지침]
+                            {format}
+                            
+                            [데이터 데이터]
+                            {data}
+                            """)
+                            .param("format", formatDirection)
+                            .param("data", params.toString()))
+                    .call()
+                    .content();
+        } catch (Exception e) {
+            log.error("메시지 변환 중 AI 호출 실패: {}", e.getMessage());
+            return "메시지 생성 중 오류가 발생했습니다. 원본 데이터를 전달합니다: " + params.toString();
+        }
     }
 
     @Tool(description = "지정된 슬랙 사용자에게 메세지를 전송합니다.")
@@ -61,7 +73,6 @@ public class SlackTools {
             return "Slack Token이 존재하지 않습니다. 설정을 확인해주세요.";
         }
         String slackToken = tokenObj.toString();
-
 
         try {
             log.debug("Slack 메시지 전송 시도: 대상={}, 내용={}", slackId, message);
